@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Image, Button, StyleSheet} from "react-native";
-import Icon from 'react-native-vector-icons/Ionicons'
+
 const styles = StyleSheet.create({
     icon: {
         width: 24,
@@ -8,11 +8,14 @@ const styles = StyleSheet.create({
     },
 });
 
-export default class HomeScreen extends React.Component {
+export default class PedidosScreen extends React.Component {
     static navigationOptions = {
         drawerLabel: 'Home',
         drawerIcon: ({ tintColor }) => (
-            <Icon name="ios-home" size={24}/>
+            <Image
+                source={require('../../assets/icon.png')}
+                style={[styles.icon, {tintColor: tintColor}]}
+            />
         ),
     };
 

@@ -1,12 +1,22 @@
 import React from 'react';
-import { StyleSheet, Button, Image} from 'react-native';
-import { createDrawerNavigator , createAppContainer} from 'react-navigation';
+import {StyleSheet, Button, Image} from 'react-native';
+import {createSwitchNavigator,createStackNavigator,createDrawerNavigator , createAppContainer} from 'react-navigation';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 //Screens
-import HomeScreen from './screens/HomeScreen';
-import PedidosScreen from "./screens/PedidosScreen";
+  //Auth
+import LandingScreen from '@screens/Auth/LandingScreen';
+import LoginScreen from '@screens/Auth/LoginScreen';
+import RegisterScreen from '@screens/Auth/RegisterScreen';
+  //Main
+import HomeScreen from '@screens/Main/HomeScreen';
+import MenuScreen from '@screens/Main/MenuScreen';
+import CartScreen from '@screens/Main/CartScreen';
+import CheckoutScreen from '@screens/Main/CheckoutScreen';
+import LocationsScreen from '@screens/Main/LocationsScreen';
+import PedidosScreen from '@screens/Main/PedidosScreen';
+import CustomDrawerComponent from "./Components/CustomDrawerComponent";
 
 // Initialize Firebase
 const config = {
@@ -29,7 +39,76 @@ last: 'Lovelace',
 born: 1815
 });*/
 
-//Navigation
+//Auth Navigation
+const AuthNavigator = createStackNavigator(
+    {
+      Landing: LandingScreen,
+      Login: LoginScreen,
+      Register: RegisterScreen,
+    },
+    {
+      initialRouteName: 'Landing',
+    }
+);
+
+const MenuNavigator = createStackNavigator(
+    {
+        Menu: MenuScreen
+    }
+);
+
+const DrawerNavigator = createDrawerNavigator(
+    {
+        Home: {
+            screen: HomeScreen,
+        },
+        Menu: MenuNavigator,
+        Carrito: {
+          screen: CartScreen,
+        },
+        Pedidos: {
+            screen: PedidosScreen,
+        },
+        Ofertas: {
+            screen: HomeScreen
+        },
+        Ubicaciones: {
+            screen: LocationsScreen,
+        },
+        Cuenta:{
+          screen: HomeScreen
+        }
+
+    },
+    {
+      initialRouteName: "Home",
+        drawerBackgroundColor: '#424242',
+        contentComponent: CustomDrawerComponent,
+        contentOptions: {
+            activeTintColor: '#ff2416',
+            //activeBackgroundColor: '#424242',
+            inactiveTintColor: '#fff',
+            //inactiveBackgroundColor: '#424242',
+            itemsContainerStyle: {
+                marginVertical: 0,
+            },
+            iconContainerStyle: {
+                opacity: 1
+            }
+        }
+    }
+);
+
+//App Navigator
+const AppNavigator = createSwitchNavigator(
+    {
+      Auth: AuthNavigator,
+      Main: DrawerNavigator
+    },
+    {
+      initialRouteName: "Auth",
+    }
+);
 
 
 /*export default class App extends React.Component {
@@ -51,59 +130,8 @@ justifyContent: 'center',
 },
 });*/
 
-//Example
 
-
-class MyNotificationsScreen extends React.Component {
-  static navigationOptions = {
-    drawerLabel: 'Notifications',
-    drawerIcon: ({ tintColor }) => (
-        <Image
-            source={require('./assets/icon.png')}
-            style={[styles.icon, {tintColor: tintColor}]}
-        />
-    ),
-  };
-
-  render() {
-    return (
-        <Button
-            onPress={() => this.props.navigation.goBack()}
-            title="Go back home"
-        />
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  icon: {
-    width: 24,
-    height: 24,
-  },
-});
-
-const MyDrawerNavigator = createDrawerNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
-  Pedidos:{
-    screen: PedidosScreen,
-  },
-  Menu:{
-    screen: HomeScreen,
-  },
-  Ofertas:{
-    screen: HomeScreen
-  },
-  Ubicaciones:{
-    screen: HomeScreen,
-  },
-  Notifications: {
-    screen: MyNotificationsScreen,
-  },
-});
-
-const AppContainer = createAppContainer(MyDrawerNavigator);
+const AppContainer = createAppContainer(AppNavigator);
 
 export default class App extends React.Component{
   render(){
