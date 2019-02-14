@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Button, Image} from 'react-native';
 import {createSwitchNavigator,createStackNavigator,createDrawerNavigator , createAppContainer} from 'react-navigation';
+import Icon from "react-native-vector-icons/Ionicons";
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -17,6 +18,7 @@ import CheckoutScreen from '@screens/Main/CheckoutScreen';
 import LocationsScreen from '@screens/Main/LocationsScreen';
 import PedidosScreen from '@screens/Main/PedidosScreen';
 import CustomDrawerComponent from "./Components/CustomDrawerComponent";
+import SubMenu from "./screens/Main/SubMenuScreen";
 
 // Initialize Firebase
 const config = {
@@ -53,32 +55,45 @@ const AuthNavigator = createStackNavigator(
 
 const MenuNavigator = createStackNavigator(
     {
-        Menu: MenuScreen
+        Menu: MenuScreen,
+        SubMenu: SubMenu
     }
 );
+
+// const CheckoutNavigator = createStackNavigator(
+//     {
+//         Resumen: CartScreen,
+//         Direccion: CartScreen,
+//         MetodoDePago: CartScreen
+//     }
+// );
 
 const DrawerNavigator = createDrawerNavigator(
     {
         Home: {
             screen: HomeScreen,
         },
-        Menu: MenuNavigator,
+        Cuenta:{
+            screen: HomeScreen
+        },
+        Menu: {
+            screen: MenuNavigator,
+            navigationOptions: {
+                drawerLabel: 'Carta ',
+                drawerIcon: ({ tintColor }) => (
+                    <Icon name="ios-restaurant" size={24} color={tintColor}/>
+                ),
+            }
+        },
         Carrito: {
           screen: CartScreen,
         },
         Pedidos: {
             screen: PedidosScreen,
         },
-        Ofertas: {
-            screen: HomeScreen
-        },
         Ubicaciones: {
             screen: LocationsScreen,
         },
-        Cuenta:{
-          screen: HomeScreen
-        }
-
     },
     {
       initialRouteName: "Home",
@@ -106,7 +121,7 @@ const AppNavigator = createSwitchNavigator(
       Main: DrawerNavigator
     },
     {
-      initialRouteName: "Auth",
+      initialRouteName: "Main",
     }
 );
 

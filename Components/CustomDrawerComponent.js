@@ -12,13 +12,15 @@ const CustomDrawerComponent = (props) => {
                 <DrawerItems {...props}/>
                 <TouchableOpacity onPress={() => props.navigation.navigate('Landing')}
                                   style={{flex: 1, flexDirection: 'row'}}>
-                    <Icon name="ios-log-out" size={24} style={{color: props.inactiveTintColor, margin: 16}}/>
+                    <Icon name="ios-log-out" size={24} style={{color: props.inactiveTintColor, marginTop: 16, marginBottom: 16, marginLeft: 20, marginRight: 16}}/>
                     <Text style={{color: inactiveTintColor, margin: 16, fontWeight: 'bold', flex: 1}}>
                         Cerrar Sesión
                     </Text>
                 </TouchableOpacity>
             </SafeAreaView>
-        </ScrollView>)
-    };
+        </ScrollView>
+
+    )
+};
 
 export default CustomDrawerComponent;

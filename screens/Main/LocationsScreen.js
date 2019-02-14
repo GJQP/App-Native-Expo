@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 export default class LocationsScreen extends React.Component{
     static navigationOptions = {
-        drawerLabel: 'Ubícanos',
+        drawerLabel: 'Ubícanos  ',
         drawerIcon: ({ tintColor }) => (
             <Icon name="ios-map" size={24} color={tintColor}/>
         ),
